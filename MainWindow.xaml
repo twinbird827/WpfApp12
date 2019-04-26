@@ -1,0 +1,88 @@
+﻿<Window x:Class="WpfApp12.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp12"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <!-- 表作成ﾎﾞﾀﾝ -->
+        <Button Content="TEST" Click="Button_Click" DockPanel.Dock="Top" />
+
+        <!-- 行ﾍｯﾀﾞ -->
+        <DockPanel DockPanel.Dock="Left" Width="80">
+            
+            <!-- 行ﾍｯﾀﾞﾀｲﾄﾙ -->
+            <TextBlock DockPanel.Dock="Top" Background="Green" Text="行ﾍｯﾀﾞﾀｲﾄﾙ" FontWeight="Bold" />
+            
+            <!-- 表左下の余白(水平ｽｸﾛｰﾙﾊﾞｰが表示された際に余白として領域確保) -->
+            <StackPanel DockPanel.Dock="Bottom" x:Name="RowFooter" />
+            
+            <!-- 行ﾍｯﾀﾞ -->
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+                          VerticalScrollBarVisibility="Hidden" 
+                          x:Name="RowHeader">
+                <ItemsControl ItemsSource="{Binding RowHeaders}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontWeight="Bold" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+
+        <!-- 列ﾍｯﾀﾞ -->
+        <DockPanel DockPanel.Dock="Top">
+
+            <!-- 表右上の余白(垂直ｽｸﾛｰﾙﾊﾞｰが表示された際に余白として領域確保) -->
+            <StackPanel DockPanel.Dock="Right" x:Name="ColumnFooter" />
+            
+            <!-- 列ﾍｯﾀﾞﾀｲﾄﾙ配列 -->
+            <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Disabled" 
+                          x:Name="ColumnHeader">
+                <ItemsControl ItemsSource="{Binding ColumnHeaders}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontWeight="Bold" Background="Green" Width="60" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+
+        <!-- 表の中身 -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      local:ScrollViewerSyncBehavior.ColumnHeader="{Binding ElementName=ColumnHeader}" 
+                      local:ScrollViewerSyncBehavior.RowHeader="{Binding ElementName=RowHeader}" 
+                      local:ScrollViewerSyncBehavior.ColumnFooter="{Binding ElementName=ColumnFooter}" 
+                      local:ScrollViewerSyncBehavior.RowFooter="{Binding ElementName=RowFooter}">
+            <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate >
+                                    <TextBlock Text="{Binding}" Width="60"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
